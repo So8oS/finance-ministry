@@ -20,7 +20,7 @@ import MarkdownRenderer from "@/components/markdown-renderer";
 const prompts = [
   {
     icon: <Home className="w-5 h-5" />,
-    text: "كيف يمكنني شراء منزل في المملكة؟",
+    text: "كيف يمكنني شراء منزل؟",
   },
   {
     icon: <Building2 className="w-5 h-5" />,
@@ -56,7 +56,7 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [input]);
+  }, [conversation]);
 
   const handlePromptClick = (text: string) => {
     setInput(text);
@@ -68,38 +68,68 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
-    const userMesage: Message = {
+    const userMessage: Message = {
       role: "user",
       content: input.trim(),
     };
 
     setInput("");
+    if (inputRef.current) {
+      inputRef.current.textContent = "";
+    }
     setIsLoading(true);
-    setConversation((prev) => [...prev, userMesage]);
+
+    const updatedConversationWithUserMsg = [...conversation, userMessage];
+    setConversation(updatedConversationWithUserMsg);
     setHasStartedChat(true);
 
     try {
-      const { newMessage } = await chat([...conversation, userMesage]);
+      const { newMessage } = await chat(updatedConversationWithUserMsg);
 
-      let textContent = "";
-
-      const assistantMessage: Message = {
-        role: "assistant",
-        content: "",
-      };
-
-      setConversation((prev) => [...prev, assistantMessage]);
+      let accumulatedText = "";
+      let assistantMessageIndex = -1;
 
       for await (const delta of readStreamableValue(newMessage)) {
-        textContent += delta;
-        setConversation((prev) => {
-          const newConv = [...prev];
-          newConv[newConv.length - 1] = {
-            role: "assistant",
-            content: textContent,
-          };
-          return newConv;
-        });
+        if (typeof delta === "string") {
+          accumulatedText += delta;
+        }
+
+        if (assistantMessageIndex === -1) {
+          if (accumulatedText.trim() !== "") {
+            setConversation((prevConv) => {
+              const newAssistantMsg: Message = {
+                role: "assistant",
+                content: accumulatedText,
+              };
+              const conversationAfterUser = prevConv.find(
+                (msg) => msg === userMessage
+              )
+                ? prevConv
+                : updatedConversationWithUserMsg;
+
+              const updatedConv = [
+                ...conversationAfterUser.slice(0, prevConv.length),
+                newAssistantMsg,
+              ];
+              assistantMessageIndex = updatedConv.length - 1;
+              return updatedConv;
+            });
+          }
+        } else {
+          setConversation((prevConv) => {
+            const newConv = [...prevConv];
+            if (
+              newConv[assistantMessageIndex] &&
+              newConv[assistantMessageIndex].role === "assistant"
+            ) {
+              newConv[assistantMessageIndex] = {
+                ...newConv[assistantMessageIndex],
+                content: accumulatedText,
+              };
+            }
+            return newConv;
+          });
+        }
       }
     } catch (error) {
       console.error("Error: ", error);
@@ -207,7 +237,7 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
                     }`}
                   >
                     <div
-                      className={`flex items-start max-w-[80%] ${
+                      className={`flex items-start w-full ${
                         message.role === "user" ? "flex-row-reverse" : ""
                       }`}
                     >
@@ -276,12 +306,12 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
           )}
 
           {/* Chat Input */}
-          <div className="p-4 border-t bg-gray-50">
+          <div className="p-4 border-t bg-gray-50 text-black">
             <div className="flex" dir="rtl">
               <Button
                 onClick={handleSend}
                 disabled={!input.trim() || isLoading}
-                className="rounded-l-none bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 h-10"
+                className="rounded-l-none bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 h-10 cursor-pointer disabled:cursor-not-allowed"
               >
                 <Send className="w-4 h-4" />
               </Button>

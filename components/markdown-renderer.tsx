@@ -36,10 +36,10 @@ const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) => {
             <p className="mb-3 last:mb-0 leading-normal">{children}</p>
           ),
           ul: ({ children }) => (
-            <ul className="list-disc ml-4 mb-3 last:mb-0">{children}</ul>
+            <ul className=" ml-4 mb-3 last:mb-0">{children}</ul>
           ),
           ol: ({ children }) => (
-            <ol className="list-decimal ml-4 mb-3 last:mb-0">{children}</ol>
+            <ol className=" ml-4 mb-3 last:mb-0">{children}</ol>
           ),
           li: ({ children }) => <li className="mb-1 last:mb-0">{children}</li>,
           // @ts-ignore
