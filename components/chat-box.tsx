@@ -18,10 +18,10 @@ import { readStreamableValue } from "ai/rsc";
 import MarkdownRenderer from "@/components/markdown-renderer";
 
 const prompts = [
-  {
-    icon: <Home className="w-5 h-5" />,
-    text: "كيف يمكنني شراء منزل؟",
-  },
+  // {
+  //   icon: <Home className="w-5 h-5" />,
+  //   text: "كيف يمكنني شراء منزل؟",
+  // },
   {
     icon: <Building2 className="w-5 h-5" />,
     text: "ما هي خطوات تأسيس شركة جديدة؟",
@@ -30,10 +30,10 @@ const prompts = [
     icon: <FileText className="w-5 h-5" />,
     text: "أريد معرفة قوانين الإيجار",
   },
-  {
-    icon: <Scale className="w-5 h-5" />,
-    text: "ما هي حقوقي كمستهلك؟",
-  },
+  // {
+  //   icon: <Scale className="w-5 h-5" />,
+  //   text: "ما هي حقوقي كمستهلك؟",
+  // },
 ];
 
 export type Message = {
@@ -49,6 +49,7 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
   const [conversation, setConversation] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasStartedChat, setHasStartedChat] = useState<boolean>(false);
+  const [shake, setShake] = useState<boolean>(false);
 
   const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -63,6 +64,12 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
     if (inputRef.current) {
       inputRef.current.textContent = text;
     }
+  };
+
+  const handleInputChange = (e: React.FormEvent<HTMLDivElement>) => {
+    setInput(e.currentTarget.textContent || "");
+    setShake(true);
+    setTimeout(() => setShake(false), 500); // Reset shake after animation
   };
 
   const handleSend = async () => {
@@ -154,11 +161,11 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        className="bg-white rounded-lg shadow-xl w-full max-w-4xl h-[700px] max-h-[90vh] flex flex-col overflow-hidden"
+        className="bg-white rounded-lg shadow-xl w-full h-full max-h-[90vh] max-w-screen-2xl flex flex-col overflow-hidden"
       >
         {/* Chat Header */}
-        <div className="p-4 border-b flex items-center justify-between bg-emerald-600 text-white rounded-t-lg">
-          <div className="flex items-center">
+        <div className="p-4 border-b flex items-center justify-between  text-white rounded-t-lg">
+          {/* <div className="flex items-center">
             <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
               <Bot className="w-5 h-5 text-emerald-600" />
             </div>
@@ -166,12 +173,12 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
               <h3 className="font-bold text-lg">المساعد القانوني</h3>
               <p className="text-sm text-emerald-100">متصل الآن</p>
             </div>
-          </div>
+          </div> */}
           <Button
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="text-white hover:bg-emerald-700 rounded-full"
+            className="text-emerald-700 hover:bg-emerald-700 rounded-full"
           >
             <X className="w-5 h-5" />
           </Button>
@@ -180,15 +187,30 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
         {/* Message Container */}
         <div className="flex-1 flex flex-col overflow-y-auto">
           {!hasStartedChat ? (
-            <div className="flex-1 flex flex-col justify-center items-center p-8 space-y-8">
+            <div className="flex-1 flex flex-col justify-center items-center px-8 lg:p-8 space-y-8">
+              <div className="flex flex-col items-center justify-center relative">
+                <motion.img
+                  src="/seif.png"
+                  alt="logo"
+                  className="lg:w-32 xl:w-48 w-28 z-10"
+                  transition={{ duration: 0.5 }}
+                />
+                <motion.img
+                  src="/element.png"
+                  alt=""
+                  className="w-28 lg:w-32 xl:w-48 absolute lg:-bottom-2 -bottom-1.5 z-0"
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 6, ease: "linear", repeat: Infinity }}
+                />
+              </div>
               <div className="text-center space-y-4">
-                <motion.h1
+                {/* <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="text-3xl font-bold text-gray-800"
                 >
                   مرحباً بك! 👋
-                </motion.h1>
+                </motion.h1> */}
                 <motion.h2
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -318,9 +340,7 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
               <div
                 contentEditable
                 role="textbox"
-                onInput={(e) => {
-                  setInput(e.currentTarget.textContent || "");
-                }}
+                onInput={handleInputChange}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();

@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ChatBot from "@/components/chat-box";
 import Footer from "@/components/footer";
+import { Ticker } from "@/components/Ticker";
 
 export default function LandingPage() {
   const [showChat, setShowChat] = useState(false);
@@ -55,7 +56,8 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="flex items-center"
             >
-              <motion.h1
+              <img src="/logo.png" alt="logo" className="w-20" />
+              {/* <motion.h1
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
@@ -63,7 +65,7 @@ export default function LandingPage() {
                 dir="rtl"
               >
                 دليلي
-              </motion.h1>
+              </motion.h1> */}
             </motion.div>
           </div>
 
@@ -107,6 +109,51 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </header>
+      <Ticker />
+
+      {/* Archive Section */}
+      <section className="py-16 bg-gray-50" dir="rtl">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="text-3xl font-bold text-center mb-12 text-gray-800"
+          >
+            الأرشيف
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {archiveCategories.map((category, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 + index * 0.2 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+              >
+                <Card className="h-full text-center  hover:shadow-xl transition-all duration-300 border-t-4 border-t-emerald-500 group">
+                  <CardContent className="pt-6 flex flex-col justify-center items-center  ">
+                    {/* <motion.div
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                      className="bg-emerald-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4 group-hover:bg-emerald-200 transition-colors duration-300"
+                    >
+                      {category.icon}
+                    </motion.div> */}
+                    <h3 className="text-xl font-bold mb-2 text-gray-800 group-hover:text-emerald-600 transition-colors duration-300">
+                      {category.title}
+                    </h3>
+                    <p className="text-gray-600">{category.description}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Services Section */}
       <section className="py-16 bg-white" dir="rtl">
@@ -388,5 +435,18 @@ const features = [
     title: "سهولة الاستخدام",
     description:
       "واجهة سهلة الاستخدام تمكنك من الوصول للمعلومات التي تحتاجها بسرعة",
+  },
+];
+
+const archiveCategories = [
+  {
+    title: "القانون العام",
+    description: "مجموعة من القوانين التي تنظم العلاقات بين الدولة والأفراد",
+    icon: <FileText className="w-6 h-6 text-emerald-600" />,
+  },
+  {
+    title: "القانون الخاص",
+    description: "مجموعة من القوانين التي تنظم العلاقات بين الأفراد",
+    icon: <FileText className="w-6 h-6 text-emerald-600" />,
   },
 ];
