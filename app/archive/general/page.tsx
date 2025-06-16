@@ -13,6 +13,10 @@ const archiveCategories = [
     title: "القانون المالي",
     slug: "Financial_Law",
   },
+  {
+    title: "القانون الجزائي السوري",
+    slug: "Syrian_Penal_Code",
+  },
 ];
 
 function Archive() {
