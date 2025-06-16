@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: "دليلي",
@@ -23,7 +24,10 @@ export default function RootLayout({
         />
       </head>
 
-      <body className={`readex-pro-custom antialiased`}>{children}</body>
+      <body className={`readex-pro-custom antialiased`}>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }

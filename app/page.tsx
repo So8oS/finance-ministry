@@ -15,6 +15,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import ChatBot from "@/components/chat-box";
 import Footer from "@/components/footer";
 import { Ticker } from "@/components/Ticker";
+import Link from "next/link";
 
 export default function LandingPage() {
   const [showChat, setShowChat] = useState(false);
@@ -22,93 +23,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 rtl">
       {/* Header */}
-      <header className="bg-gradient-to-r from-emerald-600 to-teal-500 text-white py-6 relative overflow-hidden">
-        {/* Background Animation */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-20 h-20 bg-white rounded-full animate-float"></div>
-          <div
-            className="absolute top-32 right-20 w-16 h-16 bg-white rounded-full animate-float"
-            style={{ animationDelay: "1s" }}
-          ></div>
-          <div
-            className="absolute bottom-20 left-1/3 w-12 h-12 bg-white rounded-full animate-float"
-            style={{ animationDelay: "2s" }}
-          ></div>
-        </div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex justify-between items-center">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <Button
-                variant="outline"
-                className="text-emerald-600 border-white hover:bg-white transition-all duration-300 hover:scale-105"
-              >
-                تواصل معنا
-              </Button>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center"
-            >
-              <img src="/logo.png" alt="logo" className="w-20" />
-              {/* <motion.h1
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-4xl md:text-5xl font-bold"
-                dir="rtl"
-              >
-                دليلي
-              </motion.h1> */}
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="mt-12 mb-16 text-center"
-            dir="rtl"
-          >
-            <motion.h2
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="text-3xl md:text-4xl font-bold mb-6"
-            >
-              دليلك الشامل للإجراءات القانونية والحكومية
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="text-xl md:text-2xl mb-6"
-            >
-              نحن هنا لمساعدتك في فهم القوانين والإجراءات الحكومية بسهولة
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              className="mt-8"
-            >
-              <Button
-                size="lg"
-                className="bg-white text-emerald-600 hover:bg-gray-100 transition-all duration-300 hover:scale-105 animate-pulse-glow cursor-pointer"
-                onClick={() => setShowChat(true)}
-              >
-                ابدأ المحادثة مع المساعد <ChevronRight className="mr-2" />
-              </Button>
-            </motion.div>
-          </motion.div>
-        </div>
-      </header>
       <Ticker />
 
       {/* Archive Section */}
@@ -134,21 +49,28 @@ export default function LandingPage() {
                 transition={{ delay: 0.5 + index * 0.2 }}
                 whileHover={{ y: -5, scale: 1.02 }}
               >
-                <Card className="h-full text-center  hover:shadow-xl transition-all duration-300 border-t-4 border-t-emerald-500 group">
-                  <CardContent className="pt-6 flex flex-col justify-center items-center  ">
-                    {/* <motion.div
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                      className="bg-emerald-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4 group-hover:bg-emerald-200 transition-colors duration-300"
-                    >
-                      {category.icon}
-                    </motion.div> */}
-                    <h3 className="text-xl font-bold mb-2 text-gray-800 group-hover:text-emerald-600 transition-colors duration-300">
-                      {category.title}
-                    </h3>
-                    <p className="text-gray-600">{category.description}</p>
-                  </CardContent>
-                </Card>
+                <Link
+                  href={`/archive/${category.slug}`}
+                  className={`${
+                    category.isComingSoon
+                      ? "opacity-50 pointer-events-none"
+                      : ""
+                  }`}
+                >
+                  <Card
+                    className={`h-full text-center hover:shadow-xl transition-all duration-300 border-t-4 border-t-emerald-500 group`}
+                  >
+                    <CardContent className="pt-6 flex flex-col justify-center items-center">
+                      <h3 className="text-xl font-bold mb-2 text-gray-800 group-hover:text-emerald-600 transition-colors duration-300">
+                        {category.title}
+                      </h3>
+                      <p className="text-gray-600">{category.description}</p>
+                      {category.isComingSoon && (
+                        <p className="text-red-500 mt-2">قريباً</p>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -443,10 +365,14 @@ const archiveCategories = [
     title: "القانون العام",
     description: "مجموعة من القوانين التي تنظم العلاقات بين الدولة والأفراد",
     icon: <FileText className="w-6 h-6 text-emerald-600" />,
+    slug: "general",
+    isComingSoon: false,
   },
   {
     title: "القانون الخاص",
     description: "مجموعة من القوانين التي تنظم العلاقات بين الأفراد",
     icon: <FileText className="w-6 h-6 text-emerald-600" />,
+    slug: "private",
+    isComingSoon: true,
   },
 ];
