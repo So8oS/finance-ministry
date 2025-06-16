@@ -9,6 +9,10 @@ const archiveCategories = [
     title: "نص الإعلان الدستوري لسوريا 2025",
     slug: "Constitutional_Declaration_of_Syria",
   },
+  {
+    title: "القانون المالي",
+    slug: "Financial_Law",
+  },
 ];
 
 function Archive() {

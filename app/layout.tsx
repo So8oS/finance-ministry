@@ -24,7 +24,10 @@ export default function RootLayout({
         />
       </head>
 
-      <body className={`readex-pro-custom antialiased`}>
+      <body
+        className={`readex-pro-custom antialiased`}
+        cz-shortcut-listen="true"
+      >
         <Navbar />
         {children}
       </body>

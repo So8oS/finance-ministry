@@ -40,7 +40,7 @@ export default function Constitutional_Declaration_of_Syria_Display() {
             <div className="flex flex-col gap-4">
               {chapter.sections.map((section, sIdx) => (
                 <div key={sIdx} className="mb-6">
-                  <h3 className="text-xl font-semibold mb-3 underline">
+                  <h3 className="text-xl font-semibold mb-3 ">
                     {section.title}
                   </h3>
                   {section.articles.map((article) => (

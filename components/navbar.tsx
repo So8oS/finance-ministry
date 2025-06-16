@@ -5,6 +5,7 @@ import Logo from "@/components/logo";
 import React from "react";
 import { ChevronRight } from "lucide-react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -44,7 +45,9 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
             className="flex items-center"
           >
-            <img src="/logo.png" alt="logo" className="w-20" />
+            <Link href="/">
+              <img src="/logo.png" alt="logo" className="w-20" />
+            </Link>
             {/* <motion.h1
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
