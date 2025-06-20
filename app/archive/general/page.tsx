@@ -17,6 +17,10 @@ const archiveCategories = [
     title: "القانون الجزائي السوري",
     slug: "Syrian_Penal_Code",
   },
+  {
+    title: "قانون التأمينات الاجتماعية السوري",
+    slug: "Social_Insurance_Code",
+  },
 ];
 
 function Archive() {
