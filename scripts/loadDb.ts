@@ -1,9 +1,10 @@
-console.log("Loading database...");
-import { DataAPIClient } from "@datastax/astra-db-ts";
+console.log("Loading Syrian Penal Code into Astra DB...");
 
+import { DataAPIClient } from "@datastax/astra-db-ts";
 import { GoogleGenAI } from "@google/genai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import "dotenv/config";
+import { SyrianPenalCode } from "@/components/rules"; // Adjust path as needed
 
 const {
   ASTRA_DB_NAMESPACE,
@@ -20,52 +21,8 @@ if (!ASTRA_DB_API_ENDPOINT || !ASTRA_DB_APPLICATION_TOKEN) {
 }
 
 const genai = new GoogleGenAI({
-  apiKey: GOOGLE_GENERATIVE_AI_API_KEY,
+  apiKey: GOOGLE_GENERATIVE_AI_API_KEY!,
 });
-
-const rules = `
-المادة 59
-إذا هرب المحكوم عليه تزاد من الثلث إلى النصف كل عقوبة موقتة قضى بها على وجه مبرم من أجل جناية أو جنحة إلا في
-.
-الحالات التي خصها القانون بنص
-المادة 60
--1- تتراوح مدة الحبس التكديري بين يوم وعشرة أيام .
-2- تنفذ هذه العقوبة في المحكوم عليهم في أماكن مختلفة عن الأماكن المخصصة بالمحكوم عليهم بعقوبات جنائية أو جنحة .
-3- لا يجبر على العمل المحكوم عليهم بالتوقيف
-المادة 61
-تتراوح الغرامة التكديرية بين خمسة وعشرين ومائة ليرة .
-المادة 62
--1- تستبدل الغرامة بالحبس البسيط إذا لم تؤد في مهلة ثلاثين يوماً من تاريخ انبرام الحكم دون تنبيه سابق .
--2- تعين في الحكم القاضي بالعقوبة - وإلا فبقرار خاص - مدة الحبس المستبدل باعتبار أن اليوم الواحد من هذه العقوبة يوازي
-غرامة تتراوح بين ليرتين وخمس ليرات .
-ولا يمكن أن تتجاوز العقوبة المستبدلة عشرة أيام ولا الحد الأقصى للحبس المنصوص عليه كعقوبة أصلية للجريمة .
--3- يحسم من أصل هذه العقوبة بالنسبة التي حددها الحكم - كما ورد في الفقرة الثانية من هذه المادة - كل أداء جزئي أدي قبل
-الحبس أو في أثنائه .
-المادة 63
--1- الحكم بالأشغال الشاقة مؤبداً، أو بالاعتقال المؤبد، يوجب التجريد المدني مدى الحياة .
-2 الحكم بالأشغال الشاقة الموقتة أو بالاعتقال الموقت أو بالإبعاد أو بالإقامة الجبرية في الجنايات، يوجب التجريد المدني منذ
-اليوم الذي أصبح فيه الحكم مبرماً حتى انقضاء السنة العاشرة على تنفيذ العقوبة الأصلية
-المادة 64
-1 - تتراوح الغرامة الجنائية بين خمسين ليرة وثلاثة آلاف ليرة. وهي تخضع لأحكام المادتين الـ 53 والـ 54 المتعلقتين بالغرامة
-الجنحية
--2- تستبدل من الغرامة عند عدم أدائها عقوبة الأشغال الشاقة إذا كانت هي العقوبة الأصلية المحكوم بها، وتستبدل منها عقوبة
-الاعتقال إذا كانت العقوبة الأصلية المحكوم بها هي العقوبات الجنائية الأخرى .
-المادة 65
-كل محكوم بالحبس أو بالإقامة الجبرية في قضايا الجنح يحرم طوال تنفيذ عقوبته من ممارسة حقوقه المدنية الآتية :
-أ - الحق في تولي الوظائف والخدمات العامة .
-ب - الحق في تولي الوظائف والخدمات في إدارة شؤون الطائفة المدنية أو إدارة النقابة التي ينتمي إليها
-ج - الحق في أن يكون ناخباً أو منتخباً في جميع مجالس الدولة .
-د - الحق في أن يكون ناخباً أو منتخباً في جميع منظمات الطوائف والنقابات
-هـ الحق في حمل أوسمة سورية أو أجنبية .
-المادة 66
-1- يمكن في الحالات الخاصة التي عينها القانون أن يحكم مع كل عقوبة جنحة بالمنع من ممارسة حق أو أكثر من الحقوق
-المذكورة في المادة السابقة
--2- يقضى بهذا المنع لمدة تتراوح بين سنة وعشر سنوات
-`;
-
-const client = new DataAPIClient(ASTRA_DB_APPLICATION_TOKEN);
-//@ts-ignore
-const db = client.db(ASTRA_DB_API_ENDPOINT, { keyspace: ASTRA_DB_NAMESPACE });
 
 const splitter = new RecursiveCharacterTextSplitter({
   chunkSize: 1500,
@@ -74,10 +31,15 @@ const splitter = new RecursiveCharacterTextSplitter({
 
 type similarity = "cosine" | "dot_product" | "euclidean";
 
-const createCollection = async (similarity: similarity = "dot_product") => {
+// Initialize Astra DB client
+const client = new DataAPIClient(ASTRA_DB_APPLICATION_TOKEN!);
+//@ts-ignore
+const db = client.db(ASTRA_DB_API_ENDPOINT!, { keyspace: ASTRA_DB_NAMESPACE });
+
+const createCollection = async (similarity: similarity = "cosine") => {
   try {
     //@ts-ignore
-    const collection = await db.createCollection(ASTRA_DB_COLLECTION, {
+    const collection = await db.createCollection(ASTRA_DB_COLLECTION!, {
       vector: {
         dimension: 768,
         metric: similarity,
@@ -86,36 +48,133 @@ const createCollection = async (similarity: similarity = "dot_product") => {
         allow: ["text"],
       },
     });
+    console.log("✅ Collection created or already exists.");
     return collection;
-  } catch (error) {
-    console.error("Error creating collection:", error);
+  } catch (error: any) {
+    if (error.message?.includes("already exists")) {
+      console.log("ℹ️ Collection already exists, continuing...");
+      return db.collection(ASTRA_DB_COLLECTION!);
+    }
+    console.error("❌ Error creating collection:", error);
     throw error;
   }
+};
+
+// Flatten JSON structure to article chunks with context
+const extractArticles = (): {
+  text: string;
+  articleTitle: string;
+  path: string;
+}[] => {
+  const result: {
+    text: string;
+    articleTitle: string;
+    path: string;
+  }[] = [];
+
+  const walk = (node: any, path: string[] = []) => {
+    if (node.articles) {
+      for (const article of node.articles) {
+        const contextPath = [...path, article.title];
+        result.push({
+          text: `${contextPath.join(" > ")}\n\n${article.text}`,
+          articleTitle: article.title,
+          path: contextPath.slice(0, -1).join(" > "), // everything except the article title
+        });
+      }
+    }
+
+    if (node.sections) {
+      for (const section of node.sections) {
+        walk(section, [...path, section.title]);
+      }
+    }
+
+    if (node.chapters) {
+      for (const chapter of node.chapters) {
+        walk(chapter, [...path, chapter.title]);
+      }
+    }
+  };
+
+  walk(
+    SyrianPenalCode.chapters
+      ? { chapters: SyrianPenalCode.chapters }
+      : SyrianPenalCode
+  );
+  return result;
 };
 
 const loadSampleData = async () => {
   try {
     //@ts-ignore
-    const collection = await db.collection(ASTRA_DB_COLLECTION);
-    const chunks = await splitter.splitText(rules);
-    for (const chunk of chunks) {
-      const embedding = await genai.models.embedContent({
-        model: "embedding-001",
-        contents: chunk,
-      });
-      const vector = embedding?.embeddings?.[0]?.values;
-      const res = await collection.insertOne({
-        $vector: vector,
-        text: chunk,
-      });
-      console.log(res);
+    const collection = await db.collection(ASTRA_DB_COLLECTION!);
+    const articles = extractArticles();
+
+    console.log(`🗂 Total articles extracted: ${articles.length}`);
+
+    let totalChunks = 0;
+    let skippedChunks = 0;
+    let insertedChunks = 0;
+
+    for (let i = 0; i < articles.length; i++) {
+      const article = articles[i];
+      const chunks = await splitter.splitText(article.text);
+
+      console.log(
+        `📄 Processing article ${i + 1}/${articles.length} — "${
+          article.articleTitle
+        }" — split into ${chunks.length} chunk(s)`
+      );
+
+      for (let j = 0; j < chunks.length; j++) {
+        const chunk = chunks[j];
+        totalChunks++;
+
+        const embeddingResponse = await genai.models.embedContent({
+          model: "embedding-001",
+          contents: chunk,
+        });
+
+        const vector = embeddingResponse?.embeddings?.[0]?.values;
+
+        if (!vector) {
+          console.warn(
+            `⚠️ Skipping chunk ${j + 1} of article ${
+              i + 1
+            }, no vector returned.`
+          );
+          skippedChunks++;
+          continue;
+        }
+
+        const res = await collection.insertOne({
+          $vector: vector,
+          text: chunk,
+          articleTitle: article.articleTitle,
+          chapterPath: article.path,
+          genre: "SyrianPenalCode", // optional: helpful if you want to add filtering later
+        });
+
+        console.log(
+          `✅ Inserted chunk ${j + 1}/${chunks.length} of article ${
+            i + 1
+          } — ID: ${res.insertedId}`
+        );
+        insertedChunks++;
+      }
     }
+
+    console.log("🎉 Data loading complete.");
+    console.log(`📊 Summary:`);
+    console.log(`  ➤ Total articles: ${articles.length}`);
+    console.log(`  ➤ Total chunks generated: ${totalChunks}`);
+    console.log(`  ➤ Successfully inserted: ${insertedChunks}`);
+    console.log(`  ➤ Skipped (no vector): ${skippedChunks}`);
   } catch (error) {
-    console.error("Error loading sample data:", error);
+    console.error("❌ Error loading sample data:", error);
     throw error;
   }
 };
 
-createCollection().then(() => {
-  loadSampleData();
-});
+createCollection().then(() => loadSampleData());

@@ -16,6 +16,9 @@ import { Button } from "./ui/button";
 import { chat } from "@/lib/chat";
 import { readStreamableValue } from "ai/rsc";
 import MarkdownRenderer from "@/components/markdown-renderer";
+import Logo from "./logo";
+import { typingAtom, answeringAtom } from "@/lib/atoms";
+import { useAtom } from "jotai";
 
 const prompts = [
   // {
@@ -43,13 +46,14 @@ export type Message = {
 
 const ChatBot = ({ onClose }: { onClose: () => void }) => {
   const messageEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [input, setInput] = useState<string>("");
   const [conversation, setConversation] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasStartedChat, setHasStartedChat] = useState<boolean>(false);
-  const [shake, setShake] = useState<boolean>(false);
+  const [typing, setTyping] = useAtom(typingAtom);
+  const [answering, setAnswering] = useAtom(answeringAtom);
 
   const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -68,12 +72,13 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
 
   const handleInputChange = (e: React.FormEvent<HTMLDivElement>) => {
     setInput(e.currentTarget.textContent || "");
-    setShake(true);
-    setTimeout(() => setShake(false), 500); // Reset shake after animation
+    setTyping(true);
+    setTimeout(() => setTyping(false), 3000);
   };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
+    setTyping(false);
 
     const userMessage: Message = {
       role: "user",
@@ -89,6 +94,7 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
     const updatedConversationWithUserMsg = [...conversation, userMessage];
     setConversation(updatedConversationWithUserMsg);
     setHasStartedChat(true);
+    setAnswering(true);
 
     try {
       const { newMessage } = await chat(updatedConversationWithUserMsg);
@@ -149,6 +155,7 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
       ]);
     } finally {
       setIsLoading(false);
+      setAnswering(false);
     }
   };
 
@@ -186,10 +193,8 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
 
         {/* Message Container */}
         <div className="flex-1 flex flex-col overflow-y-auto">
-          {!hasStartedChat ? (
-            <div className="flex-1 flex flex-col justify-center items-center px-8 lg:p-8 space-y-8">
-              <div className="flex flex-col items-center justify-center relative">
-                <motion.img
+          <div className="flex flex-col items-center justify-center relative">
+            {/* <motion.img
                   src="/seif.png"
                   alt="logo"
                   className="lg:w-32 xl:w-48 w-28 z-10"
@@ -201,8 +206,12 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
                   className="w-28 lg:w-32 xl:w-48 absolute lg:-bottom-2 -bottom-1.5 z-0"
                   animate={{ rotate: [0, 360] }}
                   transition={{ duration: 6, ease: "linear", repeat: Infinity }}
-                />
-              </div>
+                /> */}
+
+            {/* <Logo /> */}
+          </div>
+          {!hasStartedChat ? (
+            <div className="flex-1 flex flex-col justify-center items-center px-8 lg:p-8 space-y-8">
               <div className="text-center space-y-4">
                 {/* <motion.h1
                   initial={{ opacity: 0, y: 20 }}
@@ -337,18 +346,15 @@ const ChatBot = ({ onClose }: { onClose: () => void }) => {
               >
                 <Send className="w-4 h-4" />
               </Button>
-              <div
-                contentEditable
-                role="textbox"
-                onInput={handleInputChange}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSend();
-                  }
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  setTyping(true);
                 }}
-                data-placeholder="اكتب سؤالك هنا..."
-                className="flex-1 min-h-[40px] max-h-32 overflow-y-auto px-3 py-2 focus:outline-none text-sm bg-white border border-gray-300 rounded-l-none empty:before:text-gray-500 empty:before:content-[attr(data-placeholder)] whitespace-pre-wrap break-words"
+                placeholder="اكتب سؤالك هنا..."
+                className="flex-1 min-h-[40px] max-h-32 overflow-y-auto px-3 py-2 focus:outline-none text-sm bg-white border border-gray-300 rounded-l-none empty:before:text-gray-500 whitespace-pre-wrap break-words"
                 ref={inputRef}
               />
             </div>
