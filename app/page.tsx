@@ -24,7 +24,6 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 rtl">
       {/* Header */}
-      <ChatBot2 onClose={() => setShowChat(false)} />
 
       <Ticker />
 
@@ -301,7 +300,7 @@ export default function LandingPage() {
             </motion.div>
           </div>
         </div>
-        {showChat && <ChatBot onClose={() => setShowChat(false)} />}
+        {showChat && <ChatBot2 onClose={() => setShowChat(false)} />}
       </section>
 
       {/* Footer */}
