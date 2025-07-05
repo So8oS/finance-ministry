@@ -16,6 +16,7 @@ import ChatBot from "@/components/chat-box";
 import Footer from "@/components/footer";
 import { Ticker } from "@/components/Ticker";
 import Link from "next/link";
+import ChatBot2 from "@/components/chat-box2";
 
 export default function LandingPage() {
   const [showChat, setShowChat] = useState(false);
@@ -23,6 +24,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 rtl">
       {/* Header */}
+      <ChatBot2 onClose={() => setShowChat(false)} />
 
       <Ticker />
 
