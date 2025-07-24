@@ -1,4 +1,4 @@
-import { nanoid } from "@/lib/utils";
+import { nanoid } from "nanoid";
 import { index, pgTable, text, varchar, vector } from "drizzle-orm/pg-core";
 import { resources } from "./resources";
 
