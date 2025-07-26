@@ -25,7 +25,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-cairo">{children}</body>
+      <body className="font-cairo" cz-shortcut-listen="true">
+        {children}
+      </body>
     </html>
   );
 }

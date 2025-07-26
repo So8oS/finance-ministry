@@ -2,9 +2,13 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
+import { useSetAtom } from "jotai";
+import { showChatAtom } from "@/lib/atoms";
 
 export function TopBar() {
   const [currentDate, setCurrentDate] = useState("");
+  const setShowChat = useSetAtom(showChatAtom);
 
   useEffect(() => {
     const updateDate = () => {
@@ -30,7 +34,7 @@ export function TopBar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-[#054139] text-white py-2 relative z-50"
+      className="bg-[#054139] text-white py-2 relative z-50 flex justify-between items-center"
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center text-sm">
@@ -45,6 +49,12 @@ export function TopBar() {
           </motion.div>
         </div>
       </div>
+      <Button
+        className="ml-4 bg-transparent text-white hover:bg-white/10 transition-colors"
+        onClick={() => setShowChat(true)}
+      >
+        دليلي
+      </Button>
     </motion.div>
   );
 }

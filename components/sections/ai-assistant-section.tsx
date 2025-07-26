@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MessageSquare, Send } from "lucide-react";
 import ChatBot2 from "@/components/chat-bot2";
+import { useAtom } from "jotai";
+import { showChatAtom } from "@/lib/atoms";
 
 export function AIAssistantSection() {
-  const [showChat, setShowChat] = useState(false);
+  const [showChat, setShowChat] = useAtom(showChatAtom);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {

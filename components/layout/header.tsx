@@ -1,27 +1,32 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Search, Menu, X } from "lucide-react"
+import { useState, useEffect } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search, Menu, X } from "lucide-react";
 
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const { scrollY } = useScroll()
-  const headerOpacity = useTransform(scrollY, [0, 100], [0.95, 0.98])
-  const headerBlur = useTransform(scrollY, [0, 100], [8, 20])
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const { scrollY } = useScroll();
+  const headerOpacity = useTransform(scrollY, [0, 100], [0.95, 0.98]);
+  const headerBlur = useTransform(scrollY, [0, 100], [8, 20]);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || "ontouchstart" in window)
-    }
+      setIsMobile(window.innerWidth < 768 || "ontouchstart" in window);
+    };
 
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const navItems = [
     { href: "#home", text: "الرئيسية", active: true },
@@ -30,7 +35,7 @@ export function Header() {
     { href: "#initiatives", text: "المبادرات" },
     { href: "#news", text: "الأخبار" },
     { href: "#contact", text: "اتصل بنا" },
-  ]
+  ];
 
   return (
     <motion.header
@@ -90,7 +95,9 @@ export function Header() {
                 transition={{ delay: 0.7 + index * 0.1, duration: 0.5 }}
                 whileHover={!isMobile ? { scale: 1.05, color: "#A7946C" } : {}}
                 className={`font-semibold transition-colors text-sm xl:text-base ${
-                  item.active ? "text-[#054139] border-b-2 border-[#A7946C]" : "text-gray-700 hover:text-[#A7946C]"
+                  item.active
+                    ? "text-[#054139] border-b-2 border-[#A7946C]"
+                    : "text-gray-700 hover:text-[#A7946C]"
                 }`}
               >
                 {item.text}
@@ -102,7 +109,7 @@ export function Header() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="flex items-center space-x-2 sm:space-x-4 space-x-reverse"
+            className="flex items-center space-x-2 sm:space-x-4 space-x-reverse "
           >
             <div className="relative hidden md:block">
               <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 sm:h-5 sm:w-5" />
@@ -111,7 +118,12 @@ export function Header() {
                 className="pr-10 sm:pr-12 w-48 sm:w-72 text-sm border-[#A7946C] focus:border-[#054139] bg-white/80 backdrop-blur-sm"
               />
             </div>
-            <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
               <AnimatePresence mode="wait">
                 {isMenuOpen ? (
                   <motion.div
@@ -160,7 +172,9 @@ export function Header() {
                   transition={{ delay: index * 0.1, duration: 0.3 }}
                   onClick={() => setIsMenuOpen(false)}
                   className={`block py-3 font-semibold border-b border-gray-100 ${
-                    item.active ? "text-[#054139]" : "text-gray-700 hover:text-[#A7946C]"
+                    item.active
+                      ? "text-[#054139]"
+                      : "text-gray-700 hover:text-[#A7946C]"
                   }`}
                 >
                   {item.text}
@@ -171,5 +185,5 @@ export function Header() {
         )}
       </AnimatePresence>
     </motion.header>
-  )
+  );
 }
