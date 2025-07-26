@@ -4,7 +4,6 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "وزارة المالية - الجمهورية العربية السورية",
-  description: "الموقع الرسمي لوزارة المالية في الجمهورية العربية السورية",
 };
 
 export default function RootLayout({

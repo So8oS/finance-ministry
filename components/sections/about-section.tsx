@@ -88,7 +88,7 @@ export function AboutSection() {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1, duration: 0.5 }}
-                    className="flex items-start space-x-3 space-x-reverse"
+                    className="flex items-start gap-3"
                   >
                     <CheckCircle className="h-6 w-6 text-[#A7946C] mt-1 flex-shrink-0" />
                     <span>{item}</span>
