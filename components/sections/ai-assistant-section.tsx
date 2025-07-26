@@ -25,6 +25,7 @@ export function AIAssistantSection() {
 
   return (
     <section
+      id="ai-assistant"
       className="py-16 sm:py-20 bg-gradient-to-r from-[#054139] to-[#065a4d] text-white relative overflow-hidden"
       dir="rtl"
     >

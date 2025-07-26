@@ -47,6 +47,31 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
   const messageEndRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Prevent background scrolling when chat bot is open
+  useEffect(() => {
+    // Store the original styles
+    const originalBodyStyle = document.body.style.overflow;
+    const originalHtmlStyle = document.documentElement.style.overflow;
+
+    // Prevent scrolling on both body and html
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    // Also prevent scroll on touch devices
+    const preventScroll = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener("touchmove", preventScroll, { passive: false });
+
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = originalBodyStyle;
+      document.documentElement.style.overflow = originalHtmlStyle;
+      document.removeEventListener("touchmove", preventScroll);
+    };
+  }, []);
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768 || "ontouchstart" in window);

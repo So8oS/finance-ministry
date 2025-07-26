@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, X } from "lucide-react";
+import Link from "next/link";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,11 +30,12 @@ export function Header() {
   }, []);
 
   const navItems = [
-    { href: "#home", text: "الرئيسية", active: true },
     { href: "#about", text: "عن الوزارة" },
+    { href: "#strategic-objectives", text: "الأهداف الاستراتيجية" },
     { href: "#services", text: "الخدمات" },
     { href: "#initiatives", text: "المبادرات" },
     { href: "#news", text: "الأخبار" },
+    { href: "#ai-assistant", text: "المساعد الذكي" },
     { href: "#contact", text: "اتصل بنا" },
   ];
 
@@ -58,7 +60,7 @@ export function Header() {
               transition={{ duration: 0.3 }}
               src="/logo.png"
               alt="وزارة المالية"
-              className="h-12 sm:h-16 w-auto drop-shadow-lg flex-shrink-0"
+              className="h-12 sm:h-16 w-auto drop-shadow-lg flex-shrink-0 ml-2"
             />
             <div className="border-r border-gray-300 pr-3 sm:pr-6 min-w-0">
               <motion.h1
@@ -84,24 +86,27 @@ export function Header() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="hidden lg:flex items-center space-x-6 xl:space-x-8 space-x-reverse"
+            className="hidden xl:flex items-center space-x-6 xl:space-x-8 space-x-reverse"
           >
             {navItems.map((item, index) => (
-              <motion.a
+              <motion.div
                 key={item.href}
-                href={item.href}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 + index * 0.1, duration: 0.5 }}
                 whileHover={!isMobile ? { scale: 1.05, color: "#A7946C" } : {}}
-                className={`font-semibold transition-colors text-sm xl:text-base ${
-                  item.active
-                    ? "text-[#054139] border-b-2 border-[#A7946C]"
-                    : "text-gray-700 hover:text-[#A7946C]"
-                }`}
               >
-                {item.text}
-              </motion.a>
+                <Link
+                  href={item.href}
+                  className={`font-semibold transition-colors text-sm  hover:text-[#A7946C] ${
+                    item.active
+                      ? "text-[#054139] border-b-2 border-[#A7946C]"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {item.text}
+                </Link>
+              </motion.div>
             ))}
           </motion.nav>
 
@@ -111,7 +116,7 @@ export function Header() {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="flex items-center space-x-2 sm:space-x-4 space-x-reverse "
           >
-            <div className="relative hidden md:block">
+            <div className="relative hidden xl:block">
               <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 sm:h-5 sm:w-5" />
               <Input
                 placeholder="البحث في الموقع..."
@@ -121,7 +126,7 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className="xl:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <AnimatePresence mode="wait">
@@ -160,25 +165,26 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-white/95 backdrop-blur-md border-t shadow-lg overflow-hidden"
+            className="xl:hidden bg-white/95 backdrop-blur-md border-t shadow-lg overflow-hidden"
           >
             <nav className="container mx-auto px-4 py-6 space-y-4">
               {navItems.map((item, index) => (
-                <motion.a
+                <motion.div
                   key={item.href}
-                  href={item.href}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1, duration: 0.3 }}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block py-3 font-semibold border-b border-gray-100 ${
-                    item.active
-                      ? "text-[#054139]"
-                      : "text-gray-700 hover:text-[#A7946C]"
-                  }`}
                 >
-                  {item.text}
-                </motion.a>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`block py-3 font-semibold border-b border-gray-100 hover:text-[#A7946C] transition-colors ${
+                      item.active ? "text-[#054139]" : "text-gray-700"
+                    }`}
+                  >
+                    {item.text}
+                  </Link>
+                </motion.div>
               ))}
             </nav>
           </motion.div>
