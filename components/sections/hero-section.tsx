@@ -98,7 +98,7 @@ export function HeroSection() {
           <motion.p
             variants={itemVariants}
             transition={itemTransition}
-            className="text-base sm:text-xl md:text-2xl mb-8 sm:mb-12 opacity-90 leading-relaxed max-w-4xl mx-auto px-4"
+            className="text-base sm:text-xl md:text-2xl mb-8 sm:mb-12 opacity-90 leading-relaxed max-w-4xl mx-auto px-4 font-semibold "
           >
             نحو تحقيق التعافي الاقتصادي والتنمية المستدامة من خلال إدارة فعالة
             للموارد العامة وتطبيق أعلى معايير الشفافية والكفاءة
