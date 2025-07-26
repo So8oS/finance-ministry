@@ -1,3 +1,9 @@
+// ======================================================================
+// DEPRECATED: This file contains the old resource management system
+// We have migrated to OpenAI Assistant API which handles knowledge base internally
+// ======================================================================
+
+/*
 "use server";
 
 import {
@@ -33,3 +39,8 @@ export const createResource = async (input: NewResourceParams) => {
       : "Error, please try again.";
   }
 };
+*/
+
+// The resource management functionality has been replaced by OpenAI Assistant API
+// which provides built-in knowledge base management. This file is kept for reference
+// but should not be used in the new implementation.

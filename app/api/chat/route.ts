@@ -1,94 +1,73 @@
-// import { createResource } from "@/lib/actions/resources";
-import { findRelevantContent } from "@/lib/ai/embedding";
-import { openai } from "@ai-sdk/openai";
-import { generateObject, streamText, tool } from "ai";
-import { z } from "zod";
+import { AssistantResponse } from "ai";
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY || "",
+});
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  // Parse the request body
+  const input: {
+    threadId: string | null;
+    message: string;
+  } = await req.json();
 
-  const result = streamText({
-    model: openai("gpt-4o"),
-    messages,
-    system: `You are a helpful assistant acting as the users' second brain.
-    Use tools on every request.
-    Be sure to getInformation from your knowledge base before answering any questions.
-    If a response requires multiple tools, call one tool after another without responding to the user.
-    If a response requires information from an additional tool to generate a response, call the appropriate tools in order before responding to the user.
-    ONLY respond to questions using information from tool calls.
-    if no relevant information is found in the tool calls, respond, "Sorry, I don't know."
-    Be sure to adhere to any instructions in tool calls ie. if they say to responsd like "...", do exactly that.
-    If the relevant information is not a direct match to the users prompt, you can be creative in deducing the answer.
-    Keep responses short and concise. Answer in a single sentence where possible.
-    If you are unsure, use the getInformation tool and you can use common sense to reason based on the information you do have.
-    Use your abilities as a reasoning machine to answer questions based on the information you do have.
-    When answering, always follow this structure: retrieve the most relevant law article and include its number. All answers must be in Arabic.
-`,
-    tools: {
-      // addResource: tool({
-      //   description: `add a resource to your knowledge base.
-      //     If the user provides a random piece of knowledge unprompted, use this tool without asking for confirmation.`,
-      //   parameters: z.object({
-      //     content: z
-      //       .string()
-      //       .describe("the content or resource to add to the knowledge base"),
-      //   }),
-      //   execute: async ({ content }) => createResource({ content }),
-      // }),
-      getInformation: tool({
-        description: `get information from your knowledge base to answer questions.`,
-        parameters: z.object({
-          question: z.string().describe("the users question"),
-          similarQuestions: z.array(z.string()).describe("keywords to search"),
-        }),
-        execute: async ({ question, similarQuestions }) => {
-          const queries = [question];
-          const results = await Promise.all(
-            queries.map(async (q) => findRelevantContent(q))
-          );
+  // Create a thread if needed
+  const threadId = input.threadId ?? (await openai.beta.threads.create({})).id;
 
-          // Flatten the array of arrays and remove duplicates based on 'name'
-          const uniqueResults = Array.from(
-            // @ts-ignore
-            new Map(results.flat().map((item) => [item?.name, item])).values()
-          );
-          return uniqueResults;
-        },
-      }),
-      understandQuery: tool({
-        description: `understand the users query. use this tool on every prompt.`,
-        parameters: z.object({
-          query: z.string().describe("the users query"),
-          toolsToCallInOrder: z
-            .array(z.string())
-            .describe(
-              "these are the tools you need to call in the order necessary to respond to the users query"
-            ),
-        }),
-        execute: async ({ query }) => {
-          const { object } = await generateObject({
-            model: openai("gpt-4o"),
-            system:
-              "You are a query understanding assistant. Analyze the user query and generate similar questions.",
-            schema: z.object({
-              questions: z
-                .array(z.string())
-                .max(3)
-                .describe("similar questions to the user's query. be concise."),
-            }),
-            prompt: `Analyze this query: "${query}". Provide the following:
-                    3 questions but written in a way that explains the user's query in different ways
-                    make sure to not hallucinate or add any information that is not in the user's query or context that might lead to capturing information from irrelevant sources`,
-          });
-          console.log("🔍 Questions:", object.questions);
-          return object.questions;
-        },
-      }),
-    },
+  // Add a message to the thread
+  const createdMessage = await openai.beta.threads.messages.create(threadId, {
+    role: "user",
+    content: input.message,
   });
 
-  return result.toDataStreamResponse();
+  return AssistantResponse(
+    { threadId, messageId: createdMessage.id },
+    async ({ forwardStream, sendDataMessage }) => {
+      // Run the assistant on the thread
+      const runStream = openai.beta.threads.runs.stream(threadId, {
+        assistant_id:
+          process.env.ASSISTANT_ID ??
+          (() => {
+            throw new Error("ASSISTANT_ID is not set");
+          })(),
+      });
+
+      // forward run status would stream message deltas
+      let runResult = await forwardStream(runStream);
+
+      // status can be: queued, in_progress, requires_action, cancelling, cancelled, failed, completed, or expired
+      while (
+        runResult?.status === "requires_action" &&
+        runResult.required_action?.type === "submit_tool_outputs"
+      ) {
+        const tool_outputs =
+          runResult.required_action.submit_tool_outputs.tool_calls.map(
+            (toolCall: any) => {
+              const parameters = JSON.parse(toolCall.function.arguments);
+
+              switch (toolCall.function.name) {
+                // configure your tool calls here
+
+                default:
+                  throw new Error(
+                    `Unknown tool call function: ${toolCall.function.name}`
+                  );
+              }
+            }
+          );
+
+        runResult = await forwardStream(
+          openai.beta.threads.runs.submitToolOutputsStream(
+            threadId,
+            runResult.id,
+            { tool_outputs }
+          )
+        );
+      }
+    }
+  );
 }

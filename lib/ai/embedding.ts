@@ -1,3 +1,9 @@
+// ======================================================================
+// DEPRECATED: This file contains the old embedding-based RAG system
+// We have migrated to OpenAI Assistant API which handles RAG internally
+// ======================================================================
+
+/*
 import { embed, embedMany } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { db } from "../db";
@@ -60,3 +66,8 @@ export const findRelevantContent = async (
 
   return similarChunks.map((c) => c.content).join("\n---\n");
 };
+*/
+
+// The embedding functionality has been replaced by OpenAI Assistant API
+// which provides built-in RAG capabilities. This file is kept for reference
+// but should not be used in the new implementation.

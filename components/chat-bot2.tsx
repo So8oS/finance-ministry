@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
-import { useChat } from "ai/react";
+import { useAssistant } from "@ai-sdk/react";
 
 const prompts = [
   {
@@ -34,9 +34,17 @@ const prompts = [
   },
 ];
 
+interface Message {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+}
+
 const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
+  const { status, messages, input, submitMessage, handleInputChange } =
+    useAssistant({ api: "/api/chat" });
+
   const messageEndRef = useRef<HTMLDivElement>(null);
-  const [hasStartedChat, setHasStartedChat] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -49,14 +57,6 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat({
-      maxSteps: 4,
-      onError: (error) => {
-        console.error("Chat error:", error);
-      },
-    });
-
   const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -65,33 +65,11 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
     scrollToBottom();
   }, [messages]);
 
-  useEffect(() => {
-    if (messages.length > 0) {
-      setHasStartedChat(true);
-    }
-  }, [messages]);
-
-  const handlePromptClick = (text: string) => {
-    const syntheticEvent = {
-      preventDefault: () => {},
-      target: { value: text },
-    } as any;
-
-    handleInputChange(syntheticEvent);
-
-    setTimeout(() => {
-      handleSubmit(syntheticEvent);
-    }, 100);
-  };
-
   const lastMessage =
     messages.length > 0 ? messages[messages.length - 1] : undefined;
 
   const showThinking =
-    isLoading &&
-    (!lastMessage ||
-      lastMessage.role === "user" ||
-      (lastMessage.role === "assistant" && lastMessage.content.trim() === ""));
+    status === "in_progress" && (!lastMessage || lastMessage.role === "user");
 
   return (
     <div
@@ -136,7 +114,7 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
 
         {/* Message Container */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          {!hasStartedChat ? (
+          {messages.length === 0 ? (
             <div className="flex-1 flex flex-col justify-center items-center px-4 sm:px-8 space-y-4 sm:space-y-8">
               <div className="text-center space-y-3 sm:space-y-4">
                 <motion.div
@@ -182,7 +160,9 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
                         type: "spring",
                         bounce: 0.25,
                       }}
-                      onClick={() => handlePromptClick(prompt.text)}
+                      onClick={() =>
+                        handleInputChange({ target: { value: prompt.text } })
+                      }
                       className="flex items-center gap-3 sm:gap-4 p-4 sm:p-6 text-right border-2 rounded-xl hover:bg-[#054139]/5 transition-all border-[#A7946C]/30 hover:border-[#A7946C] group"
                     >
                       <div className="text-[#A7946C] group-hover:text-[#054139] transition-colors flex-shrink-0">
@@ -199,53 +179,48 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
           ) : (
             <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
               <AnimatePresence>
-                {messages.map((message, index) =>
-                  message.role === "assistant" &&
-                  message.content.trim() === "" ? null : (
-                    <motion.div
-                      key={message.id || index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className={`flex ${
-                        message.role === "user"
-                          ? "justify-end"
-                          : "justify-start"
+                {messages.map((message, index) => (
+                  <motion.div
+                    key={message.id || index}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={`flex ${
+                      message.role === "user" ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    <div
+                      className={`flex items-start max-w-[85%] sm:max-w-[80%] ${
+                        message.role === "user" ? "flex-row-reverse" : ""
                       }`}
                     >
                       <div
-                        className={`flex items-start max-w-[85%] sm:max-w-[80%] ${
-                          message.role === "user" ? "flex-row-reverse" : ""
+                        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          message.role === "user"
+                            ? "bg-[#A7946C] mr-2 sm:mr-3"
+                            : "bg-[#054139] ml-2 sm:ml-3"
                         }`}
                       >
-                        <div
-                          className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                            message.role === "user"
-                              ? "bg-[#A7946C] mr-2 sm:mr-3"
-                              : "bg-[#054139] ml-2 sm:ml-3"
-                          }`}
-                        >
-                          {message.role === "user" ? (
-                            <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                          ) : (
-                            <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                          )}
-                        </div>
-                        <div
-                          className={`rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg ${
-                            message.role === "user"
-                              ? "bg-[#A7946C] text-white"
-                              : "bg-gray-100 text-gray-800"
-                          }`}
-                        >
-                          <p className="whitespace-pre-wrap leading-relaxed text-sm sm:text-base">
-                            {message.content}
-                          </p>
-                        </div>
+                        {message.role === "user" ? (
+                          <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                        ) : (
+                          <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                        )}
                       </div>
-                    </motion.div>
-                  )
-                )}
+                      <div
+                        className={`rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg ${
+                          message.role === "user"
+                            ? "bg-[#A7946C] text-white"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        <p className="whitespace-pre-wrap leading-relaxed text-sm sm:text-base">
+                          {message.content}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
 
                 {/* Loading State */}
                 {showThinking && (
@@ -290,7 +265,7 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
           {/* Chat Input */}
           <div className="p-3 sm:p-6 border-t bg-gray-50 text-black">
             <form
-              onSubmit={handleSubmit}
+              onSubmit={submitMessage}
               className="flex gap-2 sm:gap-3"
               dir="rtl"
             >
@@ -300,7 +275,7 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
               >
                 <Button
                   type="submit"
-                  disabled={!input.trim() || isLoading}
+                  disabled={status !== "awaiting_message"}
                   className="bg-[#054139] hover:bg-[#065a4d] disabled:opacity-50 h-10 sm:h-12 px-4 sm:px-6 rounded-lg sm:rounded-xl shadow-lg"
                 >
                   <Send className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -312,7 +287,7 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
                 onChange={handleInputChange}
                 placeholder="اكتب سؤالك المالي هنا..."
                 className="flex-1 h-10 sm:h-12 px-3 sm:px-4 py-2 sm:py-3 focus:outline-none text-sm bg-white border-2 border-gray-200 focus:border-[#A7946C] rounded-lg sm:rounded-xl shadow-sm transition-colors"
-                disabled={isLoading}
+                disabled={status !== "awaiting_message"}
               />
             </form>
             <p className="text-xs text-gray-500 mt-2 sm:mt-3 text-center px-2">

@@ -13,6 +13,7 @@ import { Footer } from "@/components/layout/footer";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 
 import { AIAssistantSection } from "@/components/sections/ai-assistant-section";
+import Chat from "@/components/chat-bot2";
 
 export default function HomePage() {
   return (
@@ -28,6 +29,8 @@ export default function HomePage() {
       <TopBar />
       <Header />
       <HeroSection />
+      <Chat />
+
       <StatsSection />
       <AboutSection />
       <CoreValuesSection />
