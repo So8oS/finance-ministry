@@ -86,7 +86,7 @@ export function AIAssistantSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-lg sm:text-xl mb-6 leading-relaxed"
+              className="text-lg sm:text-xl mb-6 leading-relaxed font-semibold  "
             >
               احصل على إجابات فورية لاستفساراتك المالية والضريبية من مساعدنا
               الذكي المدعوم بالذكاء الاصطناعي

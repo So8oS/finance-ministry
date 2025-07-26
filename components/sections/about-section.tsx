@@ -62,7 +62,7 @@ export function AboutSection() {
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed "
+            className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-semibold "
           >
             الجهة الحكومية المسؤولة عن إدارة المال العام ووضع السياسات المالية
             في الجمهورية العربية السورية

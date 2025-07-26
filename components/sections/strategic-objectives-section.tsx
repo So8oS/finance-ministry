@@ -51,26 +51,29 @@ export function StrategicObjectivesSection() {
       description:
         "من خلال الموازنة القائمة على الأولويات، وربط الإنفاق بمشروعات التنمية الحيوية",
       icon: <Target className="h-8 w-8" />,
-      color: "from-amber-500 to-orange-600",
+      color: "from-emerald-500 to-teal-600",
     },
     {
       title: "تعزيز الشفافية والمساءلة المالية",
       description:
         "عبر تطوير التقارير المالية، ونشر الموازنة بشكل دوري، وتفعيل الرقابة المالية المستقلة",
       icon: <Shield className="h-8 w-8" />,
-      color: "from-blue-500 to-indigo-600",
+      color: "from-emerald-500 to-teal-600",
     },
     {
       title: "تحديث الأنظمة والخدمات المالية",
       description:
         "عبر رقمنة عمليات الضرائب، الجمارك، والمدفوعات الحكومية، وبناء نظام مالي حديث ومتكامل",
       icon: <Globe className="h-8 w-8" />,
-      color: "from-purple-500 to-pink-600",
+      color: "from-emerald-500 to-teal-600",
     },
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-[#054139] to-[#065a4d] text-white relative overflow-hidden">
+    <section
+      className="py-20 bg-gradient-to-br from-[#054139] to-[#065a4d] text-white relative overflow-hidden"
+      id="strategic-objectives"
+    >
       {/* Animated Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <motion.div
@@ -110,7 +113,7 @@ export function StrategicObjectivesSection() {
           <motion.p
             variants={itemVariants}
             transition={itemTransition}
-            className="text-xl text-white/90 max-w-4xl mx-auto "
+            className="text-xl text-white/90 max-w-4xl mx-auto font-semibold "
           >
             خارطة طريق نحو التميز المالي والاقتصادي وتحقيق التنمية المستدامة
           </motion.p>
@@ -137,7 +140,7 @@ export function StrategicObjectivesSection() {
                     <motion.div
                       whileHover={{ scale: 1.2, rotate: 15 }}
                       transition={{ duration: 0.3 }}
-                      className="bg-white/20 p-4 rounded-full group-hover:scale-110 transition-transform duration-300"
+                      className="bg-white/20 p-4 rounded-full group-hover:scale-110 transition-transform duration-300 mx-2"
                     >
                       {objective.icon}
                     </motion.div>

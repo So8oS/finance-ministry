@@ -117,7 +117,7 @@ export function ServicesSection() {
           <motion.p
             variants={itemVariants}
             transition={itemTransition}
-            className="text-xl opacity-90 max-w-4xl mx-auto "
+            className="text-xl opacity-90 max-w-4xl mx-auto font-semibold "
           >
             منصة متكاملة من الخدمات الرقمية لتسهيل التعامل مع الوزارة
           </motion.p>
@@ -148,7 +148,9 @@ export function ServicesSection() {
                   <CardTitle className="text-lg ">{service.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="text-white/80 mb-4">{service.description}</p>
+                  <p className="text-white/80 mb-4 h-12">
+                    {service.description}
+                  </p>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -156,7 +158,7 @@ export function ServicesSection() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-[#A7946C] text-[#A7946C] hover:bg-[#A7946C] hover:text-white bg-transparent"
+                      className="border-[#A7946C] text-[#A7946C] hover:bg-[#A7946C] hover:text-white bg-transparent w-32"
                     >
                       {service.buttonText}
                     </Button>

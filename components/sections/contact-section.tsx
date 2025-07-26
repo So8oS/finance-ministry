@@ -87,7 +87,7 @@ export function ContactSection() {
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 max-w-3xl mx-auto "
+            className="text-xl text-gray-600 max-w-3xl mx-auto font-semibold "
           >
             للاستفسارات والمساعدة، نحن هنا لخدمتكم على مدار الساعة
           </motion.p>

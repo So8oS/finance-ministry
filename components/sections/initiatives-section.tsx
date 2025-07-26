@@ -96,7 +96,7 @@ export function InitiativesSection() {
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 max-w-4xl mx-auto "
+            className="text-xl text-gray-600 max-w-4xl mx-auto font-semibold "
           >
             مشاريع تطويرية شاملة لتحديث النظام المالي وتحسين الخدمات
           </motion.p>

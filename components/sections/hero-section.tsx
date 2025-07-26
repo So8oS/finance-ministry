@@ -44,37 +44,24 @@ export function HeroSection() {
 
   return (
     <section
+      className="py-20 bg-gradient-to-br from-[#054139] to-[#065a4d] text-white relative overflow-hidden"
       id="home"
-      className="relative bg-gradient-to-l from-[#054139] via-[#065a4d] to-[#054139] text-white py-16 sm:py-24 overflow-hidden"
     >
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
+      {/* Animated Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
         <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 180, 360],
-          }}
+          animate={{ rotate: 360 }}
           transition={{
-            duration: 20,
+            duration: 50,
             repeat: Number.POSITIVE_INFINITY,
             ease: "linear",
           }}
-          className="absolute top-10 sm:top-20 right-10 sm:right-20 w-16 h-16 sm:w-32 sm:h-32 bg-[#A7946C]/10 rounded-full blur-3xl"
-        ></motion.div>
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            rotate: [360, 180, 0],
+          className="w-full h-full"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23A7946C' fillOpacity='0.3'%3E%3Cpath d='M30 30l15-15v30l-15-15zm0 0l-15 15h30l-15-15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }}
-          transition={{
-            duration: 25,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-          className="absolute bottom-10 sm:bottom-20 left-10 sm:left-20 w-24 h-24 sm:w-48 sm:h-48 bg-[#A7946C]/5 rounded-full blur-3xl"
         ></motion.div>
       </div>
-
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial="hidden"

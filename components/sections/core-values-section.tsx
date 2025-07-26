@@ -95,7 +95,7 @@ export function CoreValuesSection() {
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 max-w-3xl mx-auto "
+            className="text-xl text-gray-600 max-w-3xl mx-auto font-semibold "
           >
             المبادئ التي نعتمدها كأساس لعملنا في خدمة الوطن والمواطن
           </motion.p>

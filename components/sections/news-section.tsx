@@ -84,7 +84,7 @@ export function NewsSection() {
             <h2 className="text-4xl md:text-5xl font-bold text-[#054139] mb-4 ">
               الأخبار والتحديثات
             </h2>
-            <p className="text-xl text-gray-600 ">
+            <p className="text-xl text-gray-600 font-semibold ">
               آخر المستجدات والإعلانات المهمة من الوزارة
             </p>
           </motion.div>
@@ -135,7 +135,7 @@ export function NewsSection() {
                   </div>
                 </div>
                 <CardContent className="p-6">
-                  <p className="text-gray-600 mb-6 leading-relaxed">
+                  <p className="text-gray-600 mb-6 leading-relaxed h-20">
                     {newsItem.description}
                   </p>
                   <motion.div
