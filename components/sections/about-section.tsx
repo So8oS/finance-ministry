@@ -56,13 +56,13 @@ export function AboutSection() {
           </motion.div>
           <motion.h2
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold text-[#054139] mb-6 font-amiri"
+            className="text-4xl md:text-5xl font-bold text-[#054139] mb-6 "
           >
             دور وزارة المالية
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-amiri"
+            className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed "
           >
             الجهة الحكومية المسؤولة عن إدارة المال العام ووضع السياسات المالية
             في الجمهورية العربية السورية
@@ -78,7 +78,7 @@ export function AboutSection() {
             className="space-y-8"
           >
             <div className="bg-white p-8 rounded-2xl shadow-xl border-r-4 border-[#A7946C]">
-              <h3 className="text-2xl font-bold text-[#054139] mb-4 font-amiri">
+              <h3 className="text-2xl font-bold text-[#054139] mb-4 ">
                 المسؤوليات الأساسية
               </h3>
               <ul className="space-y-4 text-gray-700">
@@ -121,7 +121,7 @@ export function AboutSection() {
                   >
                     <Target className="h-20 w-20 text-[#A7946C] mx-auto mb-6" />
                   </motion.div>
-                  <CardTitle className="text-3xl text-[#A7946C] mb-4 font-amiri">
+                  <CardTitle className="text-3xl text-[#A7946C] mb-4 ">
                     الرؤية
                   </CardTitle>
                 </CardHeader>
@@ -151,7 +151,7 @@ export function AboutSection() {
                   >
                     <Building2 className="h-20 w-20 text-white mx-auto mb-6" />
                   </motion.div>
-                  <CardTitle className="text-3xl text-white mb-4 font-amiri">
+                  <CardTitle className="text-3xl text-white mb-4 ">
                     الرسالة
                   </CardTitle>
                 </CardHeader>

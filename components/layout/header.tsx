@@ -65,7 +65,7 @@ export function Header() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
-                className="text-lg sm:text-2xl font-bold text-[#054139] font-amiri truncate"
+                className="text-lg sm:text-2xl font-bold text-[#054139]  truncate"
               >
                 وزارة المالية
               </motion.h1>

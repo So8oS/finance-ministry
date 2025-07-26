@@ -89,13 +89,13 @@ export function CoreValuesSection() {
           </motion.div>
           <motion.h2
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold text-[#054139] mb-6 font-amiri"
+            className="text-4xl md:text-5xl font-bold text-[#054139] mb-6 "
           >
             القيم والمبادئ الأساسية
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 max-w-3xl mx-auto font-amiri"
+            className="text-xl text-gray-600 max-w-3xl mx-auto "
           >
             المبادئ التي نعتمدها كأساس لعملنا في خدمة الوطن والمواطن
           </motion.p>
@@ -123,7 +123,7 @@ export function CoreValuesSection() {
                   >
                     {value.icon}
                   </motion.div>
-                  <h3 className="text-xl font-bold text-center text-[#A7946C] font-amiri">
+                  <h3 className="text-xl font-bold text-center text-[#A7946C] ">
                     {value.title}
                   </h3>
                 </div>

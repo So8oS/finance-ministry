@@ -81,13 +81,13 @@ export function ContactSection() {
           </motion.div>
           <motion.h2
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold text-[#054139] mb-6 font-amiri"
+            className="text-4xl md:text-5xl font-bold text-[#054139] mb-6 "
           >
             نحن في خدمتكم
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 max-w-3xl mx-auto font-amiri"
+            className="text-xl text-gray-600 max-w-3xl mx-auto "
           >
             للاستفسارات والمساعدة، نحن هنا لخدمتكم على مدار الساعة
           </motion.p>
@@ -103,7 +103,7 @@ export function ContactSection() {
           >
             <Card className="p-8 shadow-xl border-r-4 border-[#054139]">
               <CardHeader>
-                <CardTitle className="text-2xl text-[#054139] mb-6 font-amiri">
+                <CardTitle className="text-2xl text-[#054139] mb-6 ">
                   معلومات الاتصال
                 </CardTitle>
               </CardHeader>
@@ -139,7 +139,7 @@ export function ContactSection() {
             >
               <Card className="p-8 bg-gradient-to-br from-[#054139] to-[#065a4d] text-white shadow-xl">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-[#A7946C] mb-6 font-amiri">
+                  <CardTitle className="text-2xl text-[#A7946C] mb-6 ">
                     تابعونا على
                   </CardTitle>
                 </CardHeader>
@@ -176,7 +176,7 @@ export function ContactSection() {
           >
             <Card className="p-8 shadow-xl">
               <CardHeader>
-                <CardTitle className="text-2xl text-[#054139] mb-6 font-amiri">
+                <CardTitle className="text-2xl text-[#054139] mb-6 ">
                   أرسل رسالة
                 </CardTitle>
               </CardHeader>

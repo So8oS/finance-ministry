@@ -103,14 +103,14 @@ export function StrategicObjectivesSection() {
           <motion.h2
             variants={itemVariants}
             transition={itemTransition}
-            className="text-4xl md:text-5xl font-bold text-white mb-6 font-amiri"
+            className="text-4xl md:text-5xl font-bold text-white mb-6 "
           >
             الأهداف الاستراتيجية
           </motion.h2>
           <motion.p
             variants={itemVariants}
             transition={itemTransition}
-            className="text-xl text-white/90 max-w-4xl mx-auto font-amiri"
+            className="text-xl text-white/90 max-w-4xl mx-auto "
           >
             خارطة طريق نحو التميز المالي والاقتصادي وتحقيق التنمية المستدامة
           </motion.p>
@@ -141,7 +141,7 @@ export function StrategicObjectivesSection() {
                     >
                       {objective.icon}
                     </motion.div>
-                    <h3 className="text-2xl font-bold flex-1 font-amiri">
+                    <h3 className="text-2xl font-bold flex-1 ">
                       {objective.title}
                     </h3>
                   </div>

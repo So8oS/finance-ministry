@@ -110,14 +110,14 @@ export function ServicesSection() {
           <motion.h2
             variants={itemVariants}
             transition={itemTransition}
-            className="text-4xl md:text-5xl font-bold mb-6 text-white font-amiri"
+            className="text-4xl md:text-5xl font-bold mb-6 text-white "
           >
             الخدمات الإلكترونية
           </motion.h2>
           <motion.p
             variants={itemVariants}
             transition={itemTransition}
-            className="text-xl opacity-90 max-w-4xl mx-auto font-amiri"
+            className="text-xl opacity-90 max-w-4xl mx-auto "
           >
             منصة متكاملة من الخدمات الرقمية لتسهيل التعامل مع الوزارة
           </motion.p>
@@ -145,9 +145,7 @@ export function ServicesSection() {
                   >
                     {service.icon}
                   </motion.div>
-                  <CardTitle className="text-lg font-amiri">
-                    {service.title}
-                  </CardTitle>
+                  <CardTitle className="text-lg ">{service.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="text-white/80 mb-4">{service.description}</p>

@@ -111,7 +111,7 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
               <Bot className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
             </div>
             <div>
-              <h3 className="font-bold text-lg sm:text-xl font-amiri">
+              <h3 className="font-bold text-lg sm:text-xl ">
                 المساعد المالي الذكي
               </h3>
               <p className="text-xs sm:text-sm text-white/80">
@@ -152,7 +152,7 @@ const ChatBot2 = ({ onClose }: { onClose: () => void }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-xl sm:text-2xl font-bold text-[#054139] font-amiri"
+                  className="text-xl sm:text-2xl font-bold text-[#054139] "
                 >
                   مرحباً بك في المساعد المالي الذكي! 👋
                 </motion.h2>

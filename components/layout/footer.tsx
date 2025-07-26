@@ -61,7 +61,7 @@ export function Footer() {
                 className="h-12 w-auto"
               />
               <div>
-                <h3 className="text-xl font-bold text-[#A7946C] font-amiri">
+                <h3 className="text-xl font-bold text-[#A7946C] ">
                   وزارة المالية
                 </h3>
                 <p className="text-sm text-white/80">
@@ -76,7 +76,7 @@ export function Footer() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] font-amiri">
+            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] ">
               روابط سريعة
             </h4>
             <ul className="space-y-3">
@@ -105,7 +105,7 @@ export function Footer() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] font-amiri">
+            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] ">
               الخدمات الإلكترونية
             </h4>
             <ul className="space-y-3">
@@ -134,7 +134,7 @@ export function Footer() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] font-amiri">
+            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] ">
               تواصل معنا
             </h4>
             <div className="space-y-4">

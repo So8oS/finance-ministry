@@ -95,7 +95,7 @@ export function HeroSection() {
           <motion.h1
             variants={itemVariants}
             transition={itemTransition}
-            className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 sm:mb-8 leading-tight font-amiri px-2"
+            className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 sm:mb-8 leading-tight  px-2"
           >
             بناء مستقبل مالي
             <motion.span

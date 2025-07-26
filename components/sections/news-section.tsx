@@ -81,10 +81,10 @@ export function NewsSection() {
             <Badge className="bg-[#054139] text-white px-6 py-2 text-lg mb-6">
               أخبارنا
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#054139] mb-4 font-amiri">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#054139] mb-4 ">
               الأخبار والتحديثات
             </h2>
-            <p className="text-xl text-gray-600 font-amiri">
+            <p className="text-xl text-gray-600 ">
               آخر المستجدات والإعلانات المهمة من الوزارة
             </p>
           </motion.div>
@@ -126,7 +126,7 @@ export function NewsSection() {
                   <Badge className={`${newsItem.badge.className} mb-4`}>
                     {newsItem.badge.text}
                   </Badge>
-                  <CardTitle className="text-xl mb-2 group-hover:text-opacity-80 transition-colors font-amiri">
+                  <CardTitle className="text-xl mb-2 group-hover:text-opacity-80 transition-colors ">
                     {newsItem.title}
                   </CardTitle>
                   <div className="flex items-center space-x-2 space-x-reverse text-white/80">

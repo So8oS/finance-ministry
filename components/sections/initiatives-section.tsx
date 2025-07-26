@@ -90,13 +90,13 @@ export function InitiativesSection() {
           </motion.div>
           <motion.h2
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold text-[#054139] mb-6 font-amiri"
+            className="text-4xl md:text-5xl font-bold text-[#054139] mb-6 "
           >
             المبادرات والإصلاحات الرئيسية
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 max-w-4xl mx-auto font-amiri"
+            className="text-xl text-gray-600 max-w-4xl mx-auto "
           >
             مشاريع تطويرية شاملة لتحديث النظام المالي وتحسين الخدمات
           </motion.p>
@@ -118,7 +118,7 @@ export function InitiativesSection() {
               <Card className="p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border-t-4 border-[#054139]">
                 <CardHeader className="pb-6">
                   <div className="flex justify-between items-start mb-4">
-                    <CardTitle className="text-xl font-bold text-[#054139] flex-1 font-amiri">
+                    <CardTitle className="text-xl font-bold text-[#054139] flex-1 ">
                       {initiative.title}
                     </CardTitle>
                     <Badge

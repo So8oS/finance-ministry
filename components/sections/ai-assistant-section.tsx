@@ -76,7 +76,7 @@ export function AIAssistantSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-2xl sm:text-3xl font-bold mb-4 font-amiri"
+              className="text-2xl sm:text-3xl font-bold mb-4 "
             >
               استشر مساعدنا المالي الذكي
             </motion.h2>
@@ -127,9 +127,7 @@ export function AIAssistantSection() {
                   <MessageSquare className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg font-amiri">
-                    المساعد المالي
-                  </h3>
+                  <h3 className="font-bold text-lg ">المساعد المالي</h3>
                   <p className="text-sm text-white/80">متصل الآن</p>
                 </div>
               </div>
