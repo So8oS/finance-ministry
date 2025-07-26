@@ -1,173 +1,50 @@
 "use client";
 
+import { TopBar } from "@/components/layout/top-bar";
+import { Header } from "@/components/layout/header";
+import { HeroSection } from "@/components/sections/hero-section";
+import { StatsSection } from "@/components/sections/stats-section";
+import { AboutSection } from "@/components/sections/about-section";
+import { CoreValuesSection } from "@/components/sections/core-values-section";
+import { StrategicObjectivesSection } from "@/components/sections/strategic-objectives-section";
+import { InitiativesSection } from "@/components/sections/initiatives-section";
+import { ServicesSection } from "@/components/sections/services-section";
+import { NewsSection } from "@/components/sections/news-section";
+import { ContactSection } from "@/components/sections/contact-section";
+import { Footer } from "@/components/layout/footer";
+import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import {
-  MessageSquare,
-  Home,
-  Building2,
-  FileText,
-  ChevronRight,
-  Send,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import ChatBot from "@/components/chat-box";
-import Footer from "@/components/footer";
-import { Ticker } from "@/components/Ticker";
-import Link from "next/link";
 import ChatBot2 from "@/components/chat-box2";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { MessageSquare, Send } from "lucide-react";
 
-export default function LandingPage() {
+export default function HomePage() {
   const [showChat, setShowChat] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 rtl">
-      {/* Header */}
+    <div
+      className="min-h-screen bg-gradient-to-br from-gray-50 to-white font-cairo overflow-x-hidden"
+      dir="rtl"
+    >
+      {/* Mosaic Pattern Background */}
+      <div className="fixed inset-0 opacity-5 pointer-events-none">
+        <div className="mosaic-pattern w-full h-full"></div>
+      </div>
 
-      <Ticker />
-
-      {/* Archive Section */}
-      <section className="py-16 bg-gray-50" dir="rtl">
-        <div className="container mx-auto px-4">
-          <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="text-3xl font-bold text-center mb-12 text-gray-800"
-          >
-            الأرشيف
-          </motion.h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {archiveCategories.map((category, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 + index * 0.2 }}
-                whileHover={{ y: -5, scale: 1.02 }}
-              >
-                <Link
-                  href={`/archive/${category.slug}`}
-                  className={`${
-                    category.isComingSoon
-                      ? "opacity-50 pointer-events-none"
-                      : ""
-                  }`}
-                >
-                  <Card
-                    className={`h-full text-center hover:shadow-xl transition-all duration-300 border-t-4 border-t-emerald-500 group`}
-                  >
-                    <CardContent className="pt-6 flex flex-col justify-center items-center">
-                      <h3 className="text-xl font-bold mb-2 text-gray-800 group-hover:text-emerald-600 transition-colors duration-300">
-                        {category.title}
-                      </h3>
-                      <p className="text-gray-600">{category.description}</p>
-                      {category.isComingSoon && (
-                        <p className="text-red-500 mt-2">قريباً</p>
-                      )}
-                    </CardContent>
-                  </Card>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="py-16 bg-white" dir="rtl">
-        <div className="container mx-auto px-4">
-          <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1 }}
-            className="text-3xl font-bold text-center mb-12 text-gray-800"
-          >
-            خدماتنا
-          </motion.h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 1 }}
-                whileHover={{ y: -5, scale: 1.02 }}
-              >
-                <Card className="h-full hover:shadow-xl transition-all duration-300 border-t-4 border-t-emerald-500 group">
-                  <CardContent className="pt-6">
-                    <motion.div
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                      className="bg-emerald-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4 group-hover:bg-emerald-200 transition-colors duration-300"
-                    >
-                      {service.icon}
-                    </motion.div>
-                    <h3 className="text-xl font-bold mb-2 text-gray-800 group-hover:text-emerald-600 transition-colors duration-300">
-                      {service.title}
-                    </h3>
-                    <p className="text-gray-600">{service.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16 bg-gray-50" dir="rtl">
-        <div className="container mx-auto px-4">
-          <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-3xl font-bold text-center mb-12 text-gray-800"
-          >
-            لماذا دليلي؟
-          </motion.h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8, rotateY: 45 }}
-                whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2, duration: 0.6 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-l-4 border-l-emerald-500"
-              >
-                <motion.h3
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: index * 0.2 + 0.3 }}
-                  className="text-xl font-bold mb-3 text-emerald-600"
-                >
-                  {feature.title}
-                </motion.h3>
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: index * 0.2 + 0.5 }}
-                  className="text-gray-600"
-                >
-                  {feature.description}
-                </motion.p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Chatbot Section */}
+      <TopBar />
+      <Header />
+      <HeroSection />
+      <StatsSection />
+      <AboutSection />
+      <CoreValuesSection />
+      <StrategicObjectivesSection />
+      <InitiativesSection />
+      <ServicesSection />
+      <NewsSection />
+      <ContactSection />
+      <Footer />
+      <ScrollToTop />
       <section
         className="py-16 bg-gradient-to-r from-teal-500 to-emerald-600 text-white relative overflow-hidden"
         dir="rtl"
@@ -302,78 +179,6 @@ export default function LandingPage() {
         </div>
         {showChat && <ChatBot2 onClose={() => setShowChat(false)} />}
       </section>
-
-      {/* Footer */}
-      <Footer />
-
-      {/* Chatbot Modal */}
     </div>
   );
 }
-
-const services = [
-  {
-    title: "شراء العقارات",
-    description: "دليل شامل لإجراءات شراء المنازل والعقارات والتمويل العقاري",
-    icon: <Home className="w-6 h-6 text-emerald-600" />,
-  },
-  {
-    title: "تأسيس الشركات",
-    description: "خطوات تأسيس الشركات بمختلف أنواعها والمتطلبات القانونية",
-    icon: <Building2 className="w-6 h-6 text-emerald-600" />,
-  },
-  {
-    title: "عقود الإيجار",
-    description: "معلومات عن قوانين الإيجار وحقوق المستأجرين والمؤجرين",
-    icon: <FileText className="w-6 h-6 text-emerald-600" />,
-  },
-  {
-    title: "الضرائب والزكاة",
-    description: "دليل الالتزامات الضريبية للأفراد والشركات وكيفية احتسابها",
-    icon: <FileText className="w-6 h-6 text-emerald-600" />,
-  },
-  {
-    title: "التأشيرات والإقامة",
-    description: "إجراءات استخراج التأشيرات وتجديد الإقامة للوافدين",
-    icon: <FileText className="w-6 h-6 text-emerald-600" />,
-  },
-  {
-    title: "الخدمات القانونية",
-    description: "استشارات قانونية في مختلف المجالات وصياغة العقود",
-    icon: <FileText className="w-6 h-6 text-emerald-600" />,
-  },
-];
-
-const features = [
-  {
-    title: "معلومات موثوقة",
-    description: "نقدم معلومات قانونية دقيقة ومحدثة من مصادر رسمية موثوقة",
-  },
-  {
-    title: "مساعدة فورية",
-    description:
-      "احصل على إجابات لاستفساراتك على مدار الساعة من خلال المساعد الذكي",
-  },
-  {
-    title: "سهولة الاستخدام",
-    description:
-      "واجهة سهلة الاستخدام تمكنك من الوصول للمعلومات التي تحتاجها بسرعة",
-  },
-];
-
-const archiveCategories = [
-  {
-    title: "القانون العام",
-    description: "مجموعة من القوانين التي تنظم العلاقات بين الدولة والأفراد",
-    icon: <FileText className="w-6 h-6 text-emerald-600" />,
-    slug: "general",
-    isComingSoon: false,
-  },
-  {
-    title: "القانون الخاص",
-    description: "مجموعة من القوانين التي تنظم العلاقات بين الأفراد",
-    icon: <FileText className="w-6 h-6 text-emerald-600" />,
-    slug: "private",
-    isComingSoon: true,
-  },
-];

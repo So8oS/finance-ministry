@@ -1,36 +1,32 @@
-/* eslint-disable @next/next/no-page-custom-font */
+import type React from "react";
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
-  title: "دليلي",
-  description: "دليلك الشامل للإجراءات القانونية والحكومية في سوريا",
+  title: "وزارة المالية - الجمهورية العربية السورية",
+  description: "الموقع الرسمي لوزارة المالية في الجمهورية العربية السورية",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap"
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&family=Amiri:wght@400;700&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap"
           rel="stylesheet"
         />
       </head>
-
-      <body
-        className={`readex-pro-custom antialiased`}
-        cz-shortcut-listen="true"
-      >
-        <Navbar />
-        {children}
-      </body>
+      <body className="font-cairo">{children}</body>
     </html>
   );
 }

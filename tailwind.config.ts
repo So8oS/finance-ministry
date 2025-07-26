@@ -101,6 +101,7 @@ const config = {
       },
       fontFamily: {
         cascadia: ["Cascadia Code", "sans-serif"],
+        amiri: ["Amiri", "sans-serif"],
       },
     },
   },

@@ -1,4 +1,4 @@
-import { createResource } from "@/lib/actions/resources";
+// import { createResource } from "@/lib/actions/resources";
 import { findRelevantContent } from "@/lib/ai/embedding";
 import { openai } from "@ai-sdk/openai";
 import { generateObject, streamText, tool } from "ai";
@@ -52,6 +52,7 @@ export async function POST(req: Request) {
 
           // Flatten the array of arrays and remove duplicates based on 'name'
           const uniqueResults = Array.from(
+            // @ts-ignore
             new Map(results.flat().map((item) => [item?.name, item])).values()
           );
           return uniqueResults;
