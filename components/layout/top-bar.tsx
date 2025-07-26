@@ -1,8 +1,30 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export function TopBar() {
+  const [currentDate, setCurrentDate] = useState("");
+
+  useEffect(() => {
+    const updateDate = () => {
+      const now = new Date();
+      const arabicDate = new Intl.DateTimeFormat("ar", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        calendar: "gregory",
+      }).format(now);
+      setCurrentDate(arabicDate);
+    };
+
+    updateDate();
+    const interval = setInterval(updateDate, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -16,23 +38,13 @@ export function TopBar() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="flex items-center space-x-4 space-x-reverse"
+            className="flex items-center gap-4"
           >
-            <span>الأحد، 25 يناير 2025</span>
+            <span>{currentDate}</span>
             <span className="border-r border-[#A7946C] pr-4">دمشق، سوريا</span>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="flex items-center space-x-2 space-x-reverse"
-          >
-            <span>EN</span>
-            <span className="text-[#A7946C]">|</span>
-            <span className="text-[#A7946C]">عربي</span>
           </motion.div>
         </div>
       </div>
     </motion.div>
-  )
+  );
 }

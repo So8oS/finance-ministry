@@ -114,7 +114,7 @@ export function ContactSection() {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1, duration: 0.5 }}
-                    className="flex items-center space-x-4 space-x-reverse"
+                    className="flex items-center gap-4 space-x-reverse  "
                   >
                     <motion.div
                       whileHover={{ scale: 1.1, rotate: 5 }}
@@ -144,7 +144,7 @@ export function ContactSection() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex space-x-4 space-x-reverse">
+                  <div className="flex gap-4">
                     {[Facebook, Twitter, Linkedin, Instagram].map(
                       (Icon, index) => (
                         <motion.div

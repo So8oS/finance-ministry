@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Phone, Mail, Facebook, Twitter, Linkedin } from "lucide-react"
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Phone, Mail, Facebook, Twitter, Linkedin } from "lucide-react";
 
 export function Footer() {
   const containerVariants = {
@@ -14,7 +14,7 @@ export function Footer() {
         delayChildren: 0.2,
       },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -26,7 +26,7 @@ export function Footer() {
         ease: "easeOut",
       },
     },
-  }
+  };
 
   return (
     <footer className="bg-[#054139] text-white py-16 relative overflow-hidden">
@@ -34,7 +34,11 @@ export function Footer() {
       <div className="absolute inset-0 opacity-5">
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          transition={{
+            duration: 60,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "linear",
+          }}
           className="w-full h-full mosaic-pattern"
         ></motion.div>
       </div>
@@ -48,7 +52,7 @@ export function Footer() {
           className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12"
         >
           <motion.div variants={itemVariants} className="space-y-6">
-            <div className="flex items-center space-x-4 space-x-reverse">
+            <div className="flex items-center gap-4">
               <motion.img
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 transition={{ duration: 0.3 }}
@@ -57,17 +61,24 @@ export function Footer() {
                 className="h-12 w-auto"
               />
               <div>
-                <h3 className="text-xl font-bold text-[#A7946C] font-amiri">وزارة المالية</h3>
-                <p className="text-sm text-white/80">الجمهورية العربية السورية</p>
+                <h3 className="text-xl font-bold text-[#A7946C] font-amiri">
+                  وزارة المالية
+                </h3>
+                <p className="text-sm text-white/80">
+                  الجمهورية العربية السورية
+                </p>
               </div>
             </div>
             <p className="text-white/70 leading-relaxed">
-              إدارة المال العام ووضع السياسات المالية لتحقيق التنمية المستدامة والاستقرار الاقتصادي
+              إدارة المال العام ووضع السياسات المالية لتحقيق التنمية المستدامة
+              والاستقرار الاقتصادي
             </p>
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] font-amiri">روابط سريعة</h4>
+            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] font-amiri">
+              روابط سريعة
+            </h4>
             <ul className="space-y-3">
               {[
                 { href: "#about", text: "عن الوزارة" },
@@ -94,9 +105,16 @@ export function Footer() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] font-amiri">الخدمات الإلكترونية</h4>
+            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] font-amiri">
+              الخدمات الإلكترونية
+            </h4>
             <ul className="space-y-3">
-              {["النظام الضريبي", "الخدمات الجمركية", "المدفوعات الحكومية", "الاستعلامات"].map((service, index) => (
+              {[
+                "النظام الضريبي",
+                "الخدمات الجمركية",
+                "المدفوعات الحكومية",
+                "الاستعلامات",
+              ].map((service, index) => (
                 <motion.li
                   key={service}
                   initial={{ opacity: 0, x: -20 }}
@@ -116,19 +134,31 @@ export function Footer() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] font-amiri">تواصل معنا</h4>
+            <h4 className="text-lg font-semibold mb-6 text-[#A7946C] font-amiri">
+              تواصل معنا
+            </h4>
             <div className="space-y-4">
-              <motion.div whileHover={{ x: 5 }} className="flex items-center space-x-3 space-x-reverse">
+              <motion.div
+                whileHover={{ x: 5 }}
+                className="flex items-center gap-4"
+              >
                 <Phone className="h-5 w-5 text-[#A7946C]" />
                 <span className="text-white/80">+963 11 123 4567</span>
               </motion.div>
-              <motion.div whileHover={{ x: 5 }} className="flex items-center space-x-3 space-x-reverse">
+              <motion.div
+                whileHover={{ x: 5 }}
+                className="flex items-center gap-4"
+              >
                 <Mail className="h-5 w-5 text-[#A7946C]" />
                 <span className="text-white/80">info@mof.gov.sy</span>
               </motion.div>
-              <div className="flex space-x-3 space-x-reverse mt-6">
+              <div className="flex gap-4 mt-6">
                 {[Facebook, Twitter, Linkedin].map((Icon, index) => (
-                  <motion.div key={index} whileHover={{ scale: 1.2, rotate: 10 }} whileTap={{ scale: 0.9 }}>
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.2, rotate: 10 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
                     <Button
                       size="icon"
                       variant="outline"
@@ -150,9 +180,12 @@ export function Footer() {
           transition={{ duration: 0.8 }}
           className="border-t border-white/20 pt-8 text-center"
         >
-          <p className="text-white/70">© 2024 وزارة المالية - الجمهورية العربية السورية. جميع الحقوق محفوظة.</p>
+          <p className="text-white/70">
+            © 2024 وزارة المالية - الجمهورية العربية السورية. جميع الحقوق
+            محفوظة.
+          </p>
         </motion.div>
       </div>
     </footer>
-  )
+  );
 }
