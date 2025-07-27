@@ -17,20 +17,20 @@ import { useAssistant } from "@ai-sdk/react";
 
 const prompts = [
   {
-    icon: <Calculator className="w-5 h-5" />,
+    icon: <Building2 className="w-5 h-5" />, // Changed to Building2 for property improvement
+    text: "كيف يتم فرض رسم تحسين العقار؟ ومن يقدّر قيمته؟",
+  },
+  {
+    icon: <Calculator className="w-5 h-5" />, // Kept Calculator for tax calculation
     text: "كيف أحسب الضريبة المستحقة علي؟",
   },
   {
-    icon: <FileText className="w-5 h-5" />,
-    text: "ما هي خطوات تقديم الإقرار الضريبي؟",
+    icon: <FileText className="w-5 h-5" />, // Changed to FileText for administrative units
+    text: "ما هي الحالات التي يمكن فيها للوحدات الإدارية تحصيل رسوم تحسين على العقارات؟",
   },
   {
-    icon: <Building2 className="w-5 h-5" />,
-    text: "أريد معرفة الرسوم الجمركية",
-  },
-  {
-    icon: <CreditCard className="w-5 h-5" />,
-    text: "كيف أدفع المستحقات الحكومية؟",
+    icon: <Building2 className="w-5 h-5" />, // Changed to Building2 for state budget
+    text: "ما هي الجهات التي تدخل موازناتها ضمن الموازنة العامة للدولة؟",
   },
 ];
 
