@@ -29,12 +29,12 @@ export default function HomePage() {
       <Header />
       <HeroSection />
       <StatsSection />
+      <NewsSection />
       <AboutSection />
       <CoreValuesSection />
       <StrategicObjectivesSection />
       <InitiativesSection />
       <ServicesSection />
-      <NewsSection />
       <AIAssistantSection />
       <ContactSection />
       <Footer />
